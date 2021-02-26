@@ -11,8 +11,6 @@ import kotlinx.android.synthetic.main.fragment_content.view.*
 
 
 class ContentFragment : Fragment() {
-    var content: String? = ""
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,11 +24,13 @@ class ContentFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         val arguments: Bundle? = arguments
         if (arguments != null) {
-            val content = arguments.get("content").toString()
+            val content = arguments.get(ARG_CONTENT).toString()
             textViewContent.text = content
         }
         super.onActivityCreated(savedInstanceState)
     }
 
-
+    companion object{
+        const val ARG_CONTENT = "content"
+    }
 }
