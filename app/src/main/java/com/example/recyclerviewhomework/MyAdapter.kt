@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewhomework.fragments.ContentFragment
+import com.example.recyclerviewhomework.fragments.MainFragment
 import kotlinx.android.synthetic.main.even_item_layout.view.*
 import kotlinx.android.synthetic.main.odd_item_layout.view.*
 
@@ -14,50 +15,30 @@ import kotlinx.android.synthetic.main.odd_item_layout.view.*
 private const val ODD: Int = 0
 private const val EVEN: Int = 1
 
-class MyAdapter(private var items: List<Item>, private val communicator: Communicator) :
+class MyAdapter(
+    private var items: List<Item>,
+    private val listener: MainFragment.OnListFragmentInteractionListener
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == ODD) {
+        return if (viewType == ODD) {
             val view =
                 LayoutInflater.from(parent.context).inflate(R.layout.odd_item_layout, parent, false)
-            return OddViewHolder(view, communicator)
+            OddViewHolder(view)
         } else {
             val view =
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.even_item_layout, parent, false)
-            return EvenViewHolder(view, communicator)
+             EvenViewHolder(view)
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == ODD) {
-            (holder as OddViewHolder).bind(items[position])
-            holder.itemView.setOnClickListener {
-                val activity: AppCompatActivity = it.context as AppCompatActivity
-                val contentFragment = ContentFragment()
-                val bundle = Bundle()
-                bundle.putString("content", it.textViewOdd.text.toString())
-                contentFragment.arguments = bundle
-                activity.supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, contentFragment)
-                    .addToBackStack(null)
-                    .commit()
-            }
-        } else {
-            (holder as EvenViewHolder).bind(items[position])
-            holder.itemView.setOnClickListener {
-                val activity: AppCompatActivity = it.context as AppCompatActivity
-                val contentFragment = ContentFragment()
-                val bundle = Bundle()
-                bundle.putString("content", it.textViewEven.text.toString())
-                contentFragment.arguments = bundle
-                activity.supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragmentContainer, contentFragment)
-                    .addToBackStack(null)
-                    .commit()
-            }
-
+        val baseViewHolder = holder as BaseViewHolder
+        baseViewHolder.bind(items[position])
+        baseViewHolder.itemView.setOnClickListener {
+            listener.onListFragmentInteraction(position)
         }
     }
 
@@ -65,45 +46,27 @@ class MyAdapter(private var items: List<Item>, private val communicator: Communi
         return items.size
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (items[position].number.toInt() % 2 != 0) {
-            ODD
-        } else {
-            EVEN
-        }
+
+    abstract class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        abstract fun bind(item: Item)
     }
 
 
-    inner class OddViewHolder(itemView: View, communicator: Communicator) :
-        RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        fun bind(item: Item) {
+    inner class OddViewHolder(itemView: View) :
+        BaseViewHolder(itemView) {
+        override fun bind(item: Item) {
             itemView.textViewOdd.text = item.number
-        }
-
-        init {
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            communicator.passData(adapterPosition)
+            itemView.setOnClickListener { }
         }
 
 
     }
 
-    inner class EvenViewHolder(itemView: View, communicator: Communicator) :
-        RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        fun bind(item: Item) {
+    inner class EvenViewHolder(itemView: View) :
+        BaseViewHolder(itemView) {
+        override fun bind(item: Item) {
             itemView.textViewEven.text = item.number
+            itemView.setOnClickListener { }
         }
-
-        init {
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            communicator.passData(adapterPosition)
-        }
-
     }
 }
