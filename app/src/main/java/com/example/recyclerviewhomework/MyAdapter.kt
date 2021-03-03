@@ -1,12 +1,9 @@
 package com.example.recyclerviewhomework
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recyclerviewhomework.fragments.ContentFragment
 import com.example.recyclerviewhomework.fragments.MainFragment
 import kotlinx.android.synthetic.main.even_item_layout.view.*
 import kotlinx.android.synthetic.main.odd_item_layout.view.*
@@ -30,7 +27,7 @@ class MyAdapter(
             val view =
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.even_item_layout, parent, false)
-             EvenViewHolder(view)
+            EvenViewHolder(view)
         }
     }
 

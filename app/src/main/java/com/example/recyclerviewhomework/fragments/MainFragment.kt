@@ -3,19 +3,17 @@ package com.example.recyclerviewhomework.fragments
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.recyclerviewhomework.*
-import kotlinx.android.synthetic.main.fragment_main.*
+import com.example.recyclerviewhomework.Item
+import com.example.recyclerviewhomework.MyAdapter
+import com.example.recyclerviewhomework.R
 import kotlinx.android.synthetic.main.fragment_main.view.*
-import java.lang.ClassCastException
 
-private const val SAVED_RECYCLER_VIEW_STATUS_ID = "SAVED_RECYCLER_VIEW_STATUS_ID"
 private const val SAVED_RECYCLER_VIEW_DATA_SET_ID = "SAVED_RECYCLER_VIEW_DATASET_ID"
 
 class MainFragment : Fragment() {
