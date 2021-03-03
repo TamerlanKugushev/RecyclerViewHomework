@@ -8,24 +8,25 @@ import com.example.recyclerviewhomework.fragments.MainFragment
 import kotlinx.android.synthetic.main.even_item_layout.view.*
 import kotlinx.android.synthetic.main.odd_item_layout.view.*
 
+
 private const val ODD: Int = 0
 private const val EVEN: Int = 1
 
 class MyAdapter(
     private var items: List<Item>,
     private val listener: MainFragment.OnListFragmentInteractionListener
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ODD) {
-            val view = LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.odd_item_layout, parent, false)
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.odd_item_layout, parent, false)
             OddViewHolder(view)
         } else {
-            val view = LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.even_item_layout, parent, false)
+            val view =
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.even_item_layout, parent, false)
             EvenViewHolder(view)
         }
     }
@@ -42,30 +43,27 @@ class MyAdapter(
         return items.size
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (items[position].number.toInt() % 2 != 0) {
-            ODD
-        } else {
-            EVEN
-        }
-    }
 
     abstract class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         abstract fun bind(item: Item)
     }
 
-    class OddViewHolder(itemView: View) : BaseViewHolder(itemView) {
+
+    inner class OddViewHolder(itemView: View) :
+        BaseViewHolder(itemView) {
         override fun bind(item: Item) {
             itemView.textViewOdd.text = item.number
+            itemView.setOnClickListener { }
         }
+
+
     }
 
-    class EvenViewHolder(itemView: View) : BaseViewHolder(itemView) {
+    inner class EvenViewHolder(itemView: View) :
+        BaseViewHolder(itemView) {
         override fun bind(item: Item) {
             itemView.textViewEven.text = item.number
-            itemView.setOnClickListener {
-
-            }
+            itemView.setOnClickListener { }
         }
     }
 }
